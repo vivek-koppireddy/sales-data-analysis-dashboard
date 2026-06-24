@@ -1,0 +1,21 @@
+Order_ID,Order_Date,Year,Month,Product,Category,Region,Sales,Quantity,Order_Type
+1001,2024-01-15,2024,1,Wireless Mouse,Accessories,North,29.99,3,Online
+1002,2024-01-20,2024,1,USB-C Charger,Accessories,South,19.99,2,Offline
+1003,2024-02-05,2024,2,Laptop Stand,Office,East,49.99,1,Online
+1004,2024-02-12,2024,2,Noise Cancelling Headphones,Electronics,West,199.99,1,Online
+1005,2024-03-02,2024,3,Webcam,Electronics,North,89.99,2,Offline
+1006,2024-03-18,2024,3,Desk Lamp,Office,South,39.99,4,Online
+1007,2024-04-10,2024,4,Portable SSD,Accessories,East,129.99,1,Online
+1008,2024-04-28,2024,4,Office Chair,Office,West,249.99,1,Offline
+1009,2024-05-06,2024,5,Mechanical Keyboard,Accessories,North,119.99,1,Online
+1010,2024-05-19,2024,5,Smart Speaker,Electronics,South,149.99,2,Online
+1011,2024-06-03,2024,6,Monitor 24 inch,Electronics,East,179.99,1,Offline
+1012,2024-06-21,2024,6,Graphic Tablet,Accessories,West,89.99,2,Online
+1013,2024-07-11,2024,7,Printer,Office,North,199.99,1,Offline
+1014,2024-07-28,2024,7,External Hard Drive,Accessories,South,79.99,3,Online
+1015,2024-08-09,2024,8,Wireless Keyboard,Accessories,East,54.99,2,Online
+1016,2024-08-23,2024,8,Projector,Electronics,West,499.99,1,Offline
+1017,2024-09-05,2024,9,Tablet Stand,Office,North,24.99,5,Online
+1018,2024-09-19,2024,9,Smartphone Case,Accessories,South,14.99,6,Offline
+1019,2024-10-08,2024,10,Portable Charger,Accessories,East,39.99,3,Online
+1020,2024-10-25,2024,10,Wireless Earbuds,Electronics,West,89.99,2,Online
