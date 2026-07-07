@@ -37,6 +37,8 @@ if "active_data" not in st.session_state:
     st.session_state.active_data = None
 if "data_source" not in st.session_state:
     st.session_state.data_source = None
+if "last_uploaded_file" not in st.session_state:
+    st.session_state.last_uploaded_file = None
 if "simulation_running" not in st.session_state:
     st.session_state.simulation_running = False
 if "simulation_speed" not in st.session_state:
@@ -738,6 +740,7 @@ else:
                 df_temp, src_temp = load_default_dataset()
                 st.session_state.active_data = enrich_and_prepare_data(df_temp)
                 st.session_state.data_source = src_temp
+                st.session_state.last_uploaded_file = None
                 st.session_state.live_session_revenue = 0.0
                 st.session_state.live_session_orders = 0
                 st.session_state.simulated_orders = []
@@ -751,6 +754,7 @@ else:
                 st.session_state.authenticated = False
                 st.session_state.username = ""
                 st.session_state.simulation_running = False
+                st.session_state.last_uploaded_file = None
                 st.toast("👋 Signed out successfully.")
                 time.sleep(0.7)
                 st.rerun()
@@ -887,23 +891,28 @@ else:
     with col_uploader:
         uploaded_file = st.file_uploader("Upload Sales Dataset (CSV format)", type=["csv"], key="global_csv_uploader")
         if uploaded_file is not None:
-            try:
-                uploaded_df = pd.read_csv(uploaded_file)
-                expected_cols = ["Order_ID", "Sales", "Quantity", "Product"]
-                missing = [c for c in expected_cols if c not in uploaded_df.columns]
-                if missing:
-                    st.error(f"Missing required columns in CSV: {', '.join(missing)}")
-                else:
-                    enriched_df = enrich_and_prepare_data(uploaded_df)
-                    st.session_state.active_data = enriched_df
-                    st.session_state.data_source = f"Uploaded File ({uploaded_file.name})"
-                    st.toast(f"✅ Loaded successfully! Enriched {len(enriched_df)} transaction records.")
-                    st.success(f"Loaded and enriched {len(enriched_df)} records from {uploaded_file.name}.")
-                    st.session_state.notifications.insert(0, f"🔔 Loaded new custom dataset ({uploaded_file.name}) containing {len(enriched_df)} rows.")
-                    time.sleep(0.8)
-                    st.rerun()
-            except Exception as e:
-                st.error(f"Error reading CSV: {str(e)}")
+            file_identifier = f"{uploaded_file.name}_{uploaded_file.size}"
+            if st.session_state.last_uploaded_file != file_identifier:
+                try:
+                    uploaded_df = pd.read_csv(uploaded_file)
+                    expected_cols = ["Order_ID", "Sales", "Quantity", "Product"]
+                    missing = [c for c in expected_cols if c not in uploaded_df.columns]
+                    if missing:
+                        st.error(f"Missing required columns in CSV: {', '.join(missing)}")
+                    else:
+                        enriched_df = enrich_and_prepare_data(uploaded_df)
+                        st.session_state.active_data = enriched_df
+                        st.session_state.data_source = f"Uploaded File ({uploaded_file.name})"
+                        st.session_state.last_uploaded_file = file_identifier
+                        st.toast(f"✅ Loaded successfully! Enriched {len(enriched_df)} transaction records.")
+                        st.success(f"Loaded and enriched {len(enriched_df)} records from {uploaded_file.name}.")
+                        st.session_state.notifications.insert(0, f"🔔 Loaded new custom dataset ({uploaded_file.name}) containing {len(enriched_df)} rows.")
+                        time.sleep(0.8)
+                        st.rerun()
+                except Exception as e:
+                    st.error(f"Error reading CSV: {str(e)}")
+        else:
+            st.session_state.last_uploaded_file = None
                 
     with col_load:
         st.markdown("<div style='height: 28px;'></div>", unsafe_allow_html=True)
@@ -914,6 +923,7 @@ else:
                 enriched_df = enrich_and_prepare_data(df_temp)
                 st.session_state.active_data = enriched_df
                 st.session_state.data_source = src_temp
+                st.session_state.last_uploaded_file = None
                 st.toast(f"✅ Sample dataset loaded successfully ({len(enriched_df)} records).")
                 st.success(f"✅ Sample dataset loaded successfully ({len(enriched_df)} records).")
                 st.session_state.notifications.insert(0, f"🔔 Sandbox sample dataset loaded successfully ({len(enriched_df)} rows).")
